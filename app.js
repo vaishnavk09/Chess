@@ -25,10 +25,10 @@ app.get('/',(req,res)=>{
 })
 
 io.on('connection',(Uniqsocket)=>{
-    console.log("New user connected: "+Uniqsocket.id)})
+    console.log("New user connected: "+Uniqsocket.id)
 
     if(!players.white){
-        players.white=Uniqsocket.id
+        players.white= Uniqsocket.id
         Uniqsocket.emit('playerColor','W')
     }
     else if(!players.black){
@@ -66,9 +66,15 @@ io.on('connection',(Uniqsocket)=>{
                 
             }
         }
-        catch(err){}
+        catch(err){
+            console.log(err);
+            
+            console.log("invalid move",move);
+            
+        }
     })
     
+}); // This closing brace was missing
  
  
    
