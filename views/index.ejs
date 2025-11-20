@@ -4,8 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
+        /* Title styles: glossy pink + silver effect inspired by the attached image */
+        .title-wrap{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-bottom:12px;
+            position: relative; /* enable absolutely positioned gloss */
+        }
+
+        .title{
+            font-family: 'Baloo 2', system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial;
+            font-weight: 900;
+            font-size: 72px;
+            line-height: 1;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            transform: translateZ(0);
+        }
+
+        /* pink to silver gradient */
+        .title::before{
+            content: attr(data-text);
+            position: absolute;
+            left: 0; top: 0; right: 0; bottom: 0;
+            background: linear-gradient(120deg, #ff7fbf 0%, #ffd6e8 45%, #e6e6f3 60%, #d9d9dd 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: saturate(1.05) contrast(1.05);
+        }
+
+        /* soft silver stroke and layered shadows for glossy 3D feel */
+        .title{
+            text-shadow:
+                0 2px 0 rgba(255,255,255,0.85),
+                0 6px 10px rgba(0,0,0,0.45),
+                0 1px 0 rgba(255,255,255,0.6);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.6);
+        }
+
+        /* subtle highlight stripe */
+        .title::after{
+            content: '';
+            position: absolute;
+            left: 6%; right: 6%; top: 6%; height: 26%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.0));
+            border-radius: 20px;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+            transform: translateY(-6%);
+            opacity: 0.9;
+        }
+
+        /* SVG gloss overlay positioning */
+        .title-gloss{
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) translateY(6px);
+            width: 520px;
+            height: 140px;
+            pointer-events: none;
+            z-index: 3;
+            overflow: visible;
+            opacity: 0.95;
+        }
+
+        .title{ z-index: 2; }
+
         #chessBoard {
             display: grid;
             grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -66,7 +140,29 @@
 </head>
 <body>
     <div class="w-full h-screen flex items-center justify-center bg-zinc-900">
-        <div id="chessBoard" class="w-96 h-96 bg-red-400 "></div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+            <div class="title-wrap">
+                <div class="title" data-text="chess">chess</div>
+                <svg class="title-gloss" viewBox="0 0 520 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <defs>
+                        <filter id="gblur" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="8" result="b" />
+                            <feComponentTransfer in="b">
+                                <feFuncA type="table" tableValues="0 0.85"/>
+                            </feComponentTransfer>
+                        </filter>
+                        <linearGradient id="shine" x1="0" x2="1" y1="0" y2="0">
+                            <stop offset="0%" stop-color="white" stop-opacity="0.95"/>
+                            <stop offset="55%" stop-color="white" stop-opacity="0.25"/>
+                            <stop offset="100%" stop-color="white" stop-opacity="0.0"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- soft curved highlight that follows the top of the letters -->
+                    <path d="M40,28 C120,6 400,6 480,28 C420,12 200,22 40,28 Z" fill="url(#shine)" filter="url(#gblur)" />
+                </svg>
+            </div>
+            <div id="chessBoard" class="w-96 h-96 bg-red-400 "></div>
+        </div>
     </div>
     
 
