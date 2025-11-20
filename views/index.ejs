@@ -31,20 +31,12 @@
             transform: translateZ(0);
         }
 
-        /* pink to silver gradient */
-        .title::before{
-            content: attr(data-text);
-            position: absolute;
-            left: 0; top: 0; right: 0; bottom: 0;
+        /* pink to silver gradient applied directly so letters are filled */
+        .title{
             background: linear-gradient(120deg, #ff7fbf 0%, #ffd6e8 45%, #e6e6f3 60%, #d9d9dd 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: saturate(1.05) contrast(1.05);
-        }
-
-        /* soft silver stroke and layered shadows for glossy 3D feel */
-        .title{
             text-shadow:
                 0 2px 0 rgba(255,255,255,0.85),
                 0 6px 10px rgba(0,0,0,0.45),
